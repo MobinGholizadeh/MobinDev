@@ -35,6 +35,8 @@ export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [emailAddress, setEmailAddress] = useState("mobingithub@gmail.com");
+  const [phoneNumber, setPhoneNumber] = useState("+98 939 214 8140");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -747,11 +749,11 @@ export default function Portfolio() {
                     <div className="space-y-4">
                       <div className="flex items-center space-x-3">
                         <Mail className="w-5 h-5 text-orange-500" />
-                        <span>mobin.gholizadeh@email.com</span>
+                        <span>{emailAddress}</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Phone className="w-5 h-5 text-orange-500" />
-                        <span>+98 XXX XXX XXXX</span>
+                        <span>{phoneNumber}</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <MapPin className="w-5 h-5 text-orange-500" />
@@ -821,7 +823,10 @@ export default function Portfolio() {
                         placeholder="Your message..."
                       />
                     </div>
-                    <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                    <Button
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                      onClick={() => {}}
+                    >
                       Send Message
                     </Button>
                   </div>

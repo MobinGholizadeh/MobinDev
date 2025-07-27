@@ -30,6 +30,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import * as MyImage from "@/public/MyImg.jpg";
 
 export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false);
@@ -365,11 +366,11 @@ export default function Portfolio() {
               viewport={{ once: true }}
             >
               <div
-                className={`w-full h-96 rounded-lg ${
+                className={`w-full h-124 rounded-lg ${
                   darkMode ? "bg-gray-800" : "bg-gray-200"
                 } flex items-center justify-center`}
               >
-                <Code className="w-24 h-24 text-orange-500" />
+                <img className="w-full h-full" src={MyImage.default.src} />
               </div>
             </motion.div>
 

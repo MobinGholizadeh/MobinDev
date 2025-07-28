@@ -31,6 +31,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import * as MyImage from "@/public/MyImg.jpg";
+import emailjs from "emailjs-com";
+import toast from "react-hot-toast";
 
 export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false);
@@ -38,6 +40,10 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
   const [emailAddress, setEmailAddress] = useState("mobingithub@gmail.com");
   const [phoneNumber, setPhoneNumber] = useState("+98 939 214 8140");
+  const [senderName, setSenderName] = useState("");
+  const [senderEmail, setSenderEmail] = useState("");
+  const [senderMessage, setSenderMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,6 +76,73 @@ export default function Portfolio() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const sendEmail = () => {
+    if (!senderName || !senderEmail || !senderMessage) {
+      toast.error("Please fill in all the fields! 😅", {
+        style: {
+          background: darkMode ? "#1f2937" : "#fff",
+          color: darkMode ? "#fff" : "#000",
+          border: "1px solid #f90000ff",
+        },
+        iconTheme: {
+          primary: "#ff0000ff",
+          secondary: "#fff",
+        },
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    emailjs
+      .send(
+        "service_56ttv07",
+        "template_27ca2ae",
+        {
+          from_name: senderName,
+          from_email: senderEmail,
+          message: senderMessage,
+        },
+        "u_ypAzFXhNyzhdFzs"
+      )
+      .then(() => {
+        toast.success(
+          "Thank you! 🙌 Your message has been sent. I'll get back to you soon!",
+          {
+            style: {
+              background: darkMode ? "#1f2937" : "#fff",
+              color: darkMode ? "#fff" : "#000",
+              border: "1px solid #f97316",
+            },
+            iconTheme: {
+              primary: "#f97316",
+              secondary: "#fff",
+            },
+            duration: 5000,
+          }
+        );
+        setSenderName("");
+        setSenderEmail("");
+        setSenderMessage("");
+      })
+      .catch((error) => {
+        toast.error("Your message was not sent! 😓", {
+          style: {
+            background: darkMode ? "#1f2937" : "#fff",
+            color: darkMode ? "#fff" : "#000",
+            border: "1px solid #f90000ff",
+          },
+          iconTheme: {
+            primary: "#ff0000ff",
+            secondary: "#fff",
+          },
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -191,7 +264,6 @@ export default function Portfolio() {
         darkMode ? "bg-black text-white" : "bg-white text-gray-900"
       }`}
     >
-      {/* Navigation */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           darkMode
@@ -209,7 +281,6 @@ export default function Portfolio() {
               Mobin Gholizadeh
             </motion.div>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {navItems.map((item) => (
                 <button
@@ -242,7 +313,6 @@ export default function Portfolio() {
                 )}
               </Button>
 
-              {/* Mobile Menu Button */}
               <Button
                 variant="ghost"
                 size="icon"
@@ -259,7 +329,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -294,7 +363,6 @@ export default function Portfolio() {
         </AnimatePresence>
       </nav>
 
-      {/* Hero Section */}
       <section
         id="home"
         className="min-h-screen flex items-center justify-center px-4 pt-20"
@@ -342,7 +410,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* About Section */}
       <section id="about" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -420,7 +487,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Skills Section */}
       <section
         id="skills"
         className={`py-20 px-4 ${darkMode ? "bg-gray-900/50" : "bg-gray-50"}`}
@@ -440,7 +506,6 @@ export default function Portfolio() {
           </motion.div>
 
           <div className="space-y-12">
-            {/* Primary Skills */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -483,7 +548,6 @@ export default function Portfolio() {
               </div>
             </motion.div>
 
-            {/* Secondary Skills */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -531,7 +595,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Experience Section */}
       <section id="experience" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -613,7 +676,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Projects Section */}
       <section
         id="projects"
         className={`py-20 px-4 ${darkMode ? "bg-gray-900/50" : "bg-gray-50"}`}
@@ -695,7 +757,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section id="contact" className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -798,6 +859,8 @@ export default function Portfolio() {
                             : "bg-white border-gray-300 focus:border-orange-500"
                         } focus:outline-none focus:ring-1 focus:ring-orange-500`}
                         placeholder="Your name"
+                        value={senderName}
+                        onChange={(e) => setSenderName(e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
@@ -810,6 +873,8 @@ export default function Portfolio() {
                             : "bg-white border-gray-300 focus:border-orange-500"
                         } focus:outline-none focus:ring-1 focus:ring-orange-500`}
                         placeholder="your.email@example.com"
+                        value={senderEmail}
+                        onChange={(e) => setSenderEmail(e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
@@ -822,13 +887,20 @@ export default function Portfolio() {
                             : "bg-white border-gray-300 focus:border-orange-500"
                         } focus:outline-none focus:ring-1 focus:ring-orange-500 resize-none`}
                         placeholder="Your message..."
+                        value={senderMessage}
+                        onChange={(e) => setSenderMessage(e.target.value)}
                       />
                     </div>
                     <Button
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-                      onClick={() => {}}
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white flex justify-center items-center"
+                      onClick={sendEmail}
+                      disabled={loading}
                     >
-                      Send Message
+                      {loading ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        "Send Message"
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -838,7 +910,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer
         className={`py-8 px-4 border-t ${
           darkMode ? "border-gray-800" : "border-gray-200"

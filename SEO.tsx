@@ -3,6 +3,7 @@ import Head from "next/head";
 export default function SEO() {
     return (
         <Head>
+            <link rel="icon" href="/favicon.ico" />
             <title>Mobin Gholizadeh | Full Stack Developer</title>
             <meta name="description" content="Mobin Gholizadeh - Full stack developer specializing in .NET, React, TypeScript, Next.js and more." />
             <meta name="keywords" content="Mobin Gholizadeh, Mobin, Full Stack Developer, .NET, React, Next.js, Iran" />
@@ -34,6 +35,18 @@ export default function SEO() {
                         ],
                         jobTitle: "Full Stack Developer",
                         worksFor: { "@type": "Organization", name: "Freelance" }
+                    })
+                }}
+            />
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        url: "https://mobingholizadeh.ir",
+                        logo: "https://mobingholizadeh.ir/logo.png"
                     })
                 }}
             />
